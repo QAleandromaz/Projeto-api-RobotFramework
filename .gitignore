@@ -1,0 +1,11 @@
+# Ignorar todos os arquivos .log
+*.log
+
+# Ignorar a pasta de logs chamada "logs"
+logs/
+
+# Ignorar todos os arquivos HTML
+*.html
+
+# Ignorar todos os arquivos XML
+*.xml

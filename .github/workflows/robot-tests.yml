@@ -1,0 +1,46 @@
+name: Robot Framework serverest Tests
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: 📥 Checkout do código
+      uses: actions/checkout@v3
+
+    - name: 🐍 Instalar Python
+      uses: actions/setup-python@v4
+      with:
+        python-version: '3.10'
+
+    - name: 📦 Instalar dependências
+      run: |
+        pip install robotframework
+        pip install robotframework-seleniumlibrary
+        pip install webdriver-manager
+        # Adicione outras libs que seu projeto usa aqui
+
+    - name: 🌐 Instalar navegador (Chrome)
+      run: |
+        sudo apt-get update
+        sudo apt-get install -y chromium-browser
+        echo "CHROME_BIN=$(which chromium-browser)" >> $GITHUB_ENV
+
+    - name: 🚀 Executar testes
+      run: |
+        robot tests/
+
+    - name: 📊 Salvar relatório como artefato
+      uses: actions/upload-artifact@v4
+      with:
+        name: relatorio-robot
+        path: |
+          output.xml
+          report.html
+          log.html
